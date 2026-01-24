@@ -1,1 +1,26 @@
 /* You can add global styles to this file, and also import other style files */
+
+@import './assets/css/plugins.css';
+@import './assets/css/style.css';
+
+@import './assets/css/plugins/YouTubePopUp.css';
+@import './assets/css/plugins/animate.min.css';
+@import './assets/css/plugins/bootstrap.min.css';
+@import './assets/css/plugins/datepicker.css';
+@import './assets/css/plugins/et-lineicons.css';
+@import './assets/css/plugins/magnific-popup.css';
+@import './assets/css/plugins/owl.carousel.min.css';
+@import './assets/css/plugins/owl.theme.default.min.css';
+@import './assets/css/plugins/select2.css';
+@import './assets/css/plugins/themify-icons.css';
+
+body {
+    font-family: 'Barlow', sans-serif;
+    font-size: 15px;
+    font-weight: 400;
+    line-height: 1.75em;
+    color: #999;
+    overflow-x: hidden !important;
+    background: #101010;
+}
+

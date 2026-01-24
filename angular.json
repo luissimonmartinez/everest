@@ -24,10 +24,35 @@
               {
                 "glob": "**/*",
                 "input": "public"
+              },
+              {
+                "glob": "**/*",
+                "input": "src/assets",
+                "output": "/assets/"
               }
             ],
             "styles": [
               "src/styles.scss"
+            ],
+            "scripts": [
+              "src/assets/js/jquery-3.6.3.min.js",
+              "src/assets/js/jquery-migrate-3.0.0.min.js",
+              "src/assets/js/bootstrap.min.js",
+              "src/assets/js/popper.min.js",
+              "src/assets/js/owl.carousel.min.js",
+              "src/assets/js/datepicker.js",
+              "src/assets/js/select2.js",
+              "src/assets/js/jquery.magnific-popup.js",
+              "src/assets/js/YouTubePopUp.js",
+              "src/assets/js/jquery.stellar.min.js",
+              "src/assets/js/jquery.waypoints.min.js",
+              "src/assets/js/modernizr-2.6.2.min.js",
+              "src/assets/js/scrollIt.min.js",
+              "src/assets/js/smooth-scroll.min.js",
+              "src/assets/js/sticky-kit.min.js",
+              "src/assets/js/validator.js",
+              "src/assets/js/map.js",
+              "src/assets/js/custom.js"
             ]
           },
           "configurations": {
@@ -87,5 +112,8 @@
         }
       }
     }
+  },
+  "cli": {
+    "analytics": "d2efcf4c-88e3-4283-9972-c7266aaa62a5"
   }
 }
