@@ -50,5 +50,5 @@ jobs:
         with:
           azure_static_web_apps_api_token: ${{ secrets.AZURE_TOKEN }}
           app_location: "/"
-          output_location: "dist/everest"
+          output_location: "dist"
           action: "upload"
