@@ -18,8 +18,6 @@
                 <li class="nav-item"><a class="nav-link" href="#" data-scroll-nav="1">Nosotros</a></li>
                 <li class="nav-item"><a class="nav-link" href="#" data-scroll-nav="2">Portafolio</a></li>
                 <li class="nav-item"><a class="nav-link" href="#" data-scroll-nav="3">Contactame</a></li>
-                <!-- icono redes sociales facebook, instagram y tiktok -->
-
                 <!-- Iconos redes sociales -->
                 <li class="nav-item d-flex align-items-center">
                     <a class="nav-link px-2" href="https://www.facebook.com/profile.php?id=100063881507244" target="_blank" rel="noopener"
@@ -30,8 +28,45 @@
                         title="Instagram">
                         <i class="ti-instagram" style="font-size: 18px;"></i>
                     </a>
+                    <!-- icono login para abrir un modal de inicio de sesión de color del hover -->
+                    <a class="nav-link px-2" href="#" data-bs-toggle="modal" data-bs-target="#loginModal"
+                        title="Login">
+                        <i class="ti-arrow-top-right" style="font-size: 18px;"></i>
+                    </a>
                 </li>
             </ul>
         </div>
     </div>
 </nav>
+
+<!-- modal login no cierra cuando hace click fuera del modal, el icono x de cerrar también es de color blanco -->
+<div class="modal fade" id="loginModal" tabindex="-1" aria-labelledby="loginModalLabel" aria-hidden="true" data-bs-keyboard="false">
+    <!-- el modal debe tener borde blanco para que se diferencia del fondo de la web -->
+    <div class="modal-dialog">
+        <div class="modal-content" style="border: 1px solid black; border-radius: 10%;">
+            <!-- header del modal color negro el fondo y el texto en blanco -->
+            <div class="modal-header" style="background-color: #0F0F0F; color: white;">
+                <h5 class="modal-title" id="loginModalLabel">Iniciar Sesión</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" style="filter: invert(1);"></button>
+            </div>
+            <!-- body del modal color negro de fondo  -->
+            <div class="modal-body" style="background-color: #0F0F0F; color: white;">
+                <form>
+                    <div class="mb-3">
+                        <label for="email" class="form-label">Correo Electrónico</label>
+                        <!-- el placeholder debe ser color blanco, el borde de color blanco -->
+                        <input type="email" class="form-control" id="email" #email placeholder="Ingresa tu correo electrónico" style="background-color: #0F0F0F; color: white; border-bottom: 1px solid white;">
+                    </div>
+                    <div class="mb-3">
+                        <label for="password" class="form-label">Contraseña</label>
+                        <input type="password" class="form-control" id="password" #password placeholder="Ingresa tu contraseña" style="background-color: #0F0F0F; color: white; border-bottom: 1px solid white;">
+                    </div>
+                    <!-- el boton ingresar debe ser centrado , presionar enter ejecute login -->
+                    <div class="text-center">
+                        <a class="btn-curve btn-1 mt-30" (click)="login(email.value, password.value)"><span>Iniciar sesión</span></a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

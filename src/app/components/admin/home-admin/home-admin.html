@@ -1,0 +1,26 @@
+<div class="container">
+    <p>Editar texto de la sección de inicio</p>
+    <form [formGroup]="formGroup" (ngSubmit)="onSubmit()">
+        <div class="mb-3">
+            <label for="title" class="form-label">Título</label>
+            <input type="text" id="title" formControlName="title" class="form-control">
+            <!-- máximo 24 caracteres -->
+             @if(formGroup.get('title')?.hasError('maxlength')) {
+                <div class="text-danger">
+                    El título no puede tener más de 24 caracteres.
+                </div>
+            }
+        </div>
+        <div class="mb-3">
+            <label for="subTitle" class="form-label">Subtítulo</label>
+            <input type="text" id="subTitle" formControlName="subTitle" class="form-control">
+            <!-- máximo 24 caracteres -->
+            @if(formGroup.get('subTitle')?.hasError('maxlength')) {
+                <div class="text-danger">
+                    El subtítulo no puede tener más de 24 caracteres.
+                </div>
+            }
+        </div>
+        <button type="submit" class="btn btn-dark">Guardar cambios</button>
+    </form>
+</div>
