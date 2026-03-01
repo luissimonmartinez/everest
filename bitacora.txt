@@ -4,3 +4,5 @@ password:
 @dmin(Everest2026)
 
 url azure app:
+
+https://lively-smoke-043417310.6.azurestaticapps.net
