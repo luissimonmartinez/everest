@@ -5,32 +5,32 @@
 <div class="container mt-4">
     <ul class="nav nav-tabs justify-content-center">
         <li class="nav-item" (click)="changeTab(1)">
-            <a class="nav-link bold" [class.active]="initTab === 1" aria-current="page">Inicio</a>
+            <a class="nav-link bold" [class.active]="initTab() === 1" aria-current="page">Título Portada</a>
         </li>
         <li class="nav-item" (click)="changeTab(2)">
-            <a class="nav-link bold" [class.active]="initTab === 2">Nosotros</a>
+            <a class="nav-link bold" [class.active]="initTab() === 2">Portafolio</a>
         </li>
         <li class="nav-item" (click)="changeTab(3)">
-            <a class="nav-link bold" [class.active]="initTab === 3">Galería</a>
+            <!-- link facebook e instagram, direccion y numero de telefono, correo electronico -->
+            <a class="nav-link bold" [class.active]="initTab() === 3">Contacto y Redes</a>
         </li>
         <li class="nav-item" (click)="changeTab(4)">
             <!-- link facebook e instagram, direccion y numero de telefono, correo electronico -->
-            <a class="nav-link bold" [class.active]="initTab === 4">Contacto</a>
+            <a class="nav-link bold" [class.active]="initTab() === 4">Nombre de Marca</a>
         </li>
     </ul>
-    <div class="tab-content mt-30">
-        <div class="tab-pane fade" [class.show]="initTab === 1" [class.active]="initTab === 1">
-            <app-home-admin></app-home-admin>
-        </div>
-        <div class="tab-pane fade" [class.show]="initTab === 2" [class.active]="initTab === 2">
-            <app-about-admin></app-about-admin>
-
-        </div>
-        <div class="tab-pane fade" [class.show]="initTab === 3" [class.active]="initTab === 3">
-            <app-portfolio-admin></app-portfolio-admin>
-        </div>
-        <div class="tab-pane fade" [class.show]="initTab === 4" [class.active]="initTab === 4">
-            <app-contact-admin></app-contact-admin>
-        </div>
+    <div class="mt-4">
+        @if (initTab()==1) {
+        <app-home-admin></app-home-admin>
+        }
+        @if (initTab()==2) {
+        <app-portfolio-admin></app-portfolio-admin>
+        }
+        @if (initTab()==3) {
+        <app-contact-admin></app-contact-admin>
+        }
+        @if (initTab()==4) {
+        <app-header-admin></app-header-admin>
+        }
     </div>
 </div>

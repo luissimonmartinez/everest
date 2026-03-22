@@ -1,7 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy, signal } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Firebase } from '../../../services/firebase';
-import { log } from 'firebase/firestore/pipelines';
+import { finalize } from 'rxjs';
 
 @Component({
   selector: 'app-home-admin',
@@ -9,33 +9,73 @@ import { log } from 'firebase/firestore/pipelines';
   templateUrl: './home-admin.html',
   styleUrls: ['./home-admin.scss'],
 })
-export class HomeAdmin implements OnInit {
+export class HomeAdmin implements OnInit, OnDestroy {
+  private dataSubscription?: any;
 
   formGroup: FormGroup;
+  loadingData = signal(false);
+  isErrorInServer = signal(false);
+  loadingUpdateData = signal(false);
+  isMobileView = signal(false);
 
   constructor(private readonly firebase: Firebase) {
     this.formGroup = new FormGroup({
       title: new FormControl('', [Validators.maxLength(24)]),
-      subTitle: new FormControl('', [Validators.maxLength(24)])
+      subTitle: new FormControl('', [Validators.maxLength(24)]),
+      welcome: new FormControl('', [Validators.maxLength(50)])
     });
   }
 
   ngOnInit() {
-    console.log('HOLA');
-    this.firebase.getDataHome().then(data => {
-      console.log('DATA:', data);
-      if (data.length > 0) {
-        const { title, subTitle } = data[0];
-        this.formGroup.patchValue({ title, subTitle });
-      } else {
-        console.log('No hay datos en data-home');
+    this.loadData();
+    this.updateMobileView();
+    window.addEventListener('resize', this.updateMobileView.bind(this));
+  }
+
+  loadData() {
+    this.loadingData.set(true);
+    this.isErrorInServer.set(false);
+    this.dataSubscription = this.firebase.getDataHome('home').subscribe({
+      next: (data) => {
+        if (data.length > 0) {
+          const { title, subTitle, welcome } = data[0];
+          this.formGroup.patchValue({ title, subTitle, welcome });
+        }
+        this.loadingData.set(false);
+      },
+      error: () => {
+        this.loadingData.set(false);
+        this.isErrorInServer.set(true);
       }
-    }).catch(err => {
-      console.error('Error al obtener data-home:', err);
     });
   }
 
-  onSubmit() {
-    console.log(this.formGroup.value);
+  ngOnDestroy() {
+    if (this.dataSubscription) {
+      this.dataSubscription.unsubscribe();
+    }
+  }
+
+  changeDataHome() {
+    if (this.formGroup.pristine) {
+      return;
+    }
+    if (this.formGroup.valid) {
+      this.loadingUpdateData.set(true);
+      const { title, subTitle, welcome } = this.formGroup.value;
+      this.firebase.setNewDataHome({ title, subTitle, welcome }, 'home').pipe(finalize(() => this.loadingUpdateData.set(false))).subscribe({
+        next: () => {
+          alert('Datos actualizados correctamente');
+          this.formGroup.markAsPristine();
+        },
+        error: () => {
+          alert('Error al actualizar los datos');
+        }
+      });
+    }
+  }
+
+  updateMobileView() {
+    this.isMobileView.set(window.innerWidth <= 768);
   }
 }

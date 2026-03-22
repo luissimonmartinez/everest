@@ -1,1 +1,52 @@
-<p>portfolio-admin works!</p>
+<div class="container">
+    <div class="row">
+        <div class="col-sm-12 col-md-6">
+            <p>Cargar imágenes de portafolio</p>
+            <input type="file" accept="image/*" (change)="onFileSelected($event)" multiple />
+        </div>
+        <div class="col-sm-12 col-md-6 d-flex flex-column align-items-start justify-content-center">
+            <p>-</p>
+            <button class="btn btn-primary" (click)="uploadImages()" [disabled]="loading() || files.length==0">
+                {{loading() ?'Guardando imágenes...' : 'Guardar imágenes'}}
+            </button>
+        </div>
+    </div>
+    <div class="row">
+        <p>Listado de imágenes del portafolio:</p>
+        @if (loadingData()) {
+        <div class="d-flex justify-content-center align-items-center" style="height: 200px;">
+            <div class="spinner-border text-primary" role="status"></div>
+        </div>
+        }@else {
+            <table class="table-dark">
+                <thead>
+                    <tr>
+                        <th scope="col">Item</th>
+                        <th scope="col">Nombre</th>
+                        <th scope="col">Fecha</th>
+                        <th scope="col">Vista</th>
+                        <th scope="col">Acciones</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @for (item of portfolioImages(); track $index) {
+                    <tr>
+                        <th scope="row">{{ $index + 1 }}</th>
+                        <td>{{ item.name }}</td>
+                        <td>{{ DateUtils.formatFirebaseTimestamp(item.date) }}</td>
+                        <td>
+                            <!-- boton para abrir la imagen en una nueva pestaña -->
+                            <button class="btn btn-primary" (click)="openExternalUrl(item.url)">Ver imagen</button>
+                        </td>
+                        <td>
+                            <!-- boton para eliminar la imagen -->
+                            <button class="btn btn-danger" (click)="deleteImage(item.name)">Eliminar</button>
+                        </td>
+    
+                    </tr>
+                    }
+                </tbody>
+            </table>
+        }
+    </div>
+</div>

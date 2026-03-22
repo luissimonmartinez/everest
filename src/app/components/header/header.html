@@ -4,7 +4,7 @@
         <div class="logo-wrapper">
             <!-- <a class="logo" href="index.html"> <img src="assets/img/logo-light.png" class="logo-img" alt=""> </a> -->
             <a class="logo" href="index.html">
-                <h2 class="text-center">EVEREST<span>Tattoo Studio</span></h2>
+                <h2 class="text-center uppercase">{{brandName()}}<span>{{brandSubName()}}</span></h2>
             </a>
         </div>
         <!-- Button -->
@@ -20,11 +20,11 @@
                 <li class="nav-item"><a class="nav-link" href="#" data-scroll-nav="3">Contactame</a></li>
                 <!-- Iconos redes sociales -->
                 <li class="nav-item d-flex align-items-center">
-                    <a class="nav-link px-2" href="https://www.facebook.com/profile.php?id=100063881507244" target="_blank" rel="noopener"
+                    <a class="nav-link px-2" [href]="urlFacebook()" target="_blank" rel="noopener"
                         title="Facebook">
                         <i class="ti-facebook" style="font-size: 18px;"></i>
                     </a>
-                    <a class="nav-link px-2" href="https://instagram.com/" target="_blank" rel="noopener"
+                    <a class="nav-link px-2" [href]="urlInstagram()" target="_blank" rel="noopener"
                         title="Instagram">
                         <i class="ti-instagram" style="font-size: 18px;"></i>
                     </a>

@@ -34,13 +34,13 @@
 window.initCustomEffects = function () {
     "use strict";
     // Preloader
-    $("#preloader").fadeOut(400);
-    $(".preloader-bg").delay(300).fadeOut(400);
+    $("#preloader").fadeOut(2000);
+    $(".preloader-bg").delay(1000).fadeOut(1000);
     // Smoke Preloader
     setTimeout(function () {
         $('#preloader').fadeOut();
         $('.preloader-bg').fadeOut();
-        $('.cd-transition-layer').addClass('closing').delay(1000).queue(function () {
+        $('.cd-transition-layer').addClass('closing').delay(2000).queue(function () {
             $(this).removeClass("visible closing opening").dequeue();
         });
     });

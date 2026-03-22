@@ -2,14 +2,14 @@
   <div class="container">
     <div class="row">
       <div class="col-md-7 animate-box" data-animate-effect="fadeInLeft" style="padding: 0 41px 0 20px !important">
-        <div class="section-subtitle">Desde 2020</div>
-        <div class="section-title white">Everest <span>Tattoo Studio</span></div>
+        <div class="section-subtitle">Desde {{since()}}</div>
+        <div class="section-title white">{{brandName()}} <span>{{brandSubName()}}</span></div>
         <p>
-          <strong>Everest Tattoo Estudio</strong> es un estudio de tatuajes profesional en <strong>Tingo María</strong>,
-          especializado en diseños únicos y tatuajes de alta calidad. Desde 2020 trabajamos con un enfoque claro:
+          <strong>{{brandName()}} {{brandSubName()}}</strong> es un estudio de tatuajes profesional en <strong>{{city()}}</strong>,
+          especializado en diseños únicos y tatuajes de alta calidad. Desde {{since()}} trabajamos con un enfoque claro:
           ofrecer resultados impecables que reflejen personalidad, estilo y precisión artística. <br>
           La experiencia, la calidad de nuestros trabajos y las excelentes recomendaciones de nuestros clientes
-          nos han consolidado como uno de los <strong>mejores estudios de tatuajes en Tingo María</strong>,
+          nos han consolidado como uno de los <strong>mejores estudios de tatuajes en {{city()}}</strong>,
           creando tatuajes personalizados bajo los más altos estándares profesionales.
         </p>
         <ul class="about-list list-unstyled">
@@ -39,7 +39,8 @@
           </li>
         </ul>
       </div>
-      <div class="col-md-5 mt-30 animate-box" data-animate-effect="fadeInRight"> <img src="assets/img/about.jpg" alt="">
+      <div class="col-md-5 mt-30 animate-box" data-animate-effect="fadeInRight">
+        <img [src]="url()" [alt]="name()" class="img-fluid"/>
       </div>
     </div>
   </div>

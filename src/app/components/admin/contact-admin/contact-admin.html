@@ -1,1 +1,148 @@
-<p>contact-admin works!</p>
+@if (loadingData()) {
+    <div class="d-flex justify-content-center align-items-center" style="height: 200px;">
+        <div class="spinner-border text-primary" role="status"></div>
+    </div>
+}
+
+@if (!loadingData() && !isErrorInServer()) {
+<div class="container">
+    <div class="row">
+        <ng-container>
+            <div class="col-sm-12 col-md-11">
+                <label for="facebook" class="form-label">Facebook</label>
+                <input type="text" id="facebook" [formControl]="formControlFacebook" class="form-control">
+                @if(formControlFacebook.hasError('maxlength')) {
+                <div class="text-danger">La url de Facebook no puede tener más de 60 caracteres.</div>
+                }
+                @if(formControlFacebook.hasError('pattern')) {
+                <div class="text-danger">La url de Facebook no es válida.</div>
+                }
+                @if(formControlFacebook.hasError('required')) {
+                <div class="text-danger">La url de Facebook es obligatoria.</div>
+                }
+            </div>
+            <div class="col-sm-12 col-md-1 d-flex align-items-center justify-content-start"
+                [class]="isMobileView()?'mb-4':''">
+                <button class="btn btn-primary" (click)="changeURLfacebook()">{{isLoadingChangeFacebook() ?
+                    'Actualizando...' : 'Actualizar'}}</button>
+                <button class="btn btn-success ms-2" [disabled]="!formControlFacebook.valid"
+                    (click)="openExternalUrl(formControlFacebook.value)">Abrir</button>
+            </div>
+        </ng-container>
+        <ng-container>
+            <div class="col-sm-12 col-md-11">
+                <label for="instagram" class="form-label">Instagram</label>
+                <input type="text" id="instagram" [formControl]="formControlInstagram" class="form-control">
+                @if(formControlInstagram.hasError('maxlength')) {
+                <div class="text-danger">La url de Instagram no puede tener más de 60 caracteres.</div>
+                }
+                @if(formControlInstagram.hasError('pattern')) {
+                <div class="text-danger">La url de Instagram no es válida.</div>
+                }
+                @if(formControlInstagram.hasError('required')) {
+                <div class="text-danger">La url de Instagram es obligatoria.</div>
+                }
+            </div>
+            <div class="col-sm-12 col-md-1 d-flex align-items-center justify-content-start"
+                [class]="isMobileView()?'mb-4':''">
+                <button class="btn btn-primary" (click)="changeURLinstagram()">{{isLoadingChangeInstagram() ?
+                    'Actualizando...' : 'Actualizar'}}</button>
+                <button class="btn btn-success ms-2" [disabled]="!formControlInstagram.valid"
+                    (click)="openExternalUrl(formControlInstagram.value)">Abrir</button>
+            </div>
+        </ng-container>
+        <ng-container>
+            <div class="col-sm-12 col-md-5">
+                <label for="email" class="form-label">Correo electrónico</label>
+                <input type="text" id="email" [formControl]="formControlEmail" class="form-control">
+                @if(formControlEmail.hasError('maxlength')) {
+                <div class="text-danger">El correo electrónico no puede tener más de 30 caracteres.</div>
+                }
+                @if(formControlEmail.hasError('required')) {
+                <div class="text-danger">El correo electrónico es obligatorio.</div>
+                }
+                @if(formControlEmail.hasError('email')) {
+                <div class="text-danger">El correo electrónico no es válido.</div>
+                }
+            </div>
+            <div class="col-sm-12 col-md-2 d-flex align-items-center justify-content-start"
+                [class]="isMobileView()?'mb-4':''">
+                <button class="btn btn-primary" (click)="changeEmail()">{{isLoadingChangeEmail() ? 'Actualizando...' :
+                    'Actualizar'}}</button>
+            </div>
+            <div class="col-sm-12 col-md-4 ">
+                <label for="phone" class="form-label">Teléfono</label>
+                <input type="text" id="phone" [formControl]="formControlPhone" class="form-control">
+                @if(formControlPhone.hasError('maxlength')) {
+                <div class="text-danger">El teléfono no puede tener más de 9 caracteres.</div>
+                }
+                @if(formControlPhone.hasError('minlength')) {
+                <div class="text-danger">El teléfono no puede tener menos de 9 caracteres.</div>
+                }
+                @if(formControlPhone.hasError('required')) {
+                <div class="text-danger">El teléfono es obligatorio.</div>
+                }
+                @if(formControlPhone.hasError('pattern')) {
+                <div class="text-danger">El teléfono solo puede contener números.</div>
+                }
+            </div>
+            <div class="col-sm-12 col-md-1 d-flex align-items-center justify-content-start"
+                [class]="isMobileView()?'mb-4':''">
+                <button class="btn btn-primary" (click)="changePhone()">{{isLoadingChangePhone() ? 'Actualizando...' :
+                    'Actualizar'}} </button>
+            </div>
+        </ng-container>
+        <ng-container [formGroup]="formGroupAddress">
+            <div class="col-sm-12 col-md-5">
+                <label for="direccion" class="form-label">Dirección</label>
+                <input type="text" id="direccion" formControlName="calle" class="form-control">
+                <!-- máximo 30 caracteres -->
+                @if(formGroupAddress.get('calle')?.hasError('maxlength')) {
+                <div class="text-danger">
+                    La calle no puede tener más de 30 caracteres.
+                </div>
+                }
+            </div>
+            <div class="col-sm-12 col-md-3">
+                <label for="ciudad" class="form-label">Ciudad</label>
+                <input type="text" id="ciudad" formControlName="ciudad" class="form-control">
+                <!-- máximo 20 caracteres -->
+                @if(formGroupAddress.get('ciudad')?.hasError('maxlength')) {
+                <div class="text-danger">
+                    La ciudad no puede tener más de 20 caracteres.
+                </div>
+                }
+            </div>
+            <div class="col-sm-12 col-md-3">
+                <label for="pais" class="form-label">País</label>
+                <input type="text" id="pais" formControlName="pais" class="form-control">
+                <!-- máximo 20 caracteres -->
+                @if(formGroupAddress.get('pais')?.hasError('maxlength')) {
+                <div class="text-danger">
+                    El país no puede tener más de 20 caracteres.
+                </div>
+                }
+            </div>
+            <div class="col-sm-12 col-md-1 d-flex align-items-center justify-content-start"
+                [class]="isMobileView()?'mb-4':''">
+                <button class="btn btn-primary" (click)="changeAddress()">{{isLoadingChangeAddress() ? 'Actualizando...' :
+                    'Actualizar'}}</button>
+            </div>
+        </ng-container>
+        @if (isMobileView()) {
+        <hr class="mb-5">
+        }
+    </div>
+</div>
+
+
+}
+
+@if (isErrorInServer()) {
+<div class="d-flex justify-content-center align-items-center" style="height: 200px;">
+    <div class="text-danger">
+        Ocurrió un error al cargar los datos.
+    </div>
+    <!-- volver a intentar -->
+</div>
+}

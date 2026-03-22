@@ -8,7 +8,7 @@
     </div>
     <div class="row">
       <!-- 2 columns -->
-      <div class="col-md-6 gallery-item">
+      <!-- <div class="col-md-6 gallery-item">
         <a href="assets/img/gallery/4.jpg" title="" class="img-zoom">
           <div class="gallery-box">
             <div class="gallery-img"> <img src="assets/img/gallery/4.jpg" class="img-fluid mx-auto d-block" alt=""> </div>
@@ -21,28 +21,22 @@
             <div class="gallery-img"> <img src="assets/img/gallery/10.jpg" class="img-fluid mx-auto d-block" alt=""> </div>
           </div>
         </a>
-      </div>
+      </div> -->
       <!-- 3 columns -->
-      <div class="col-md-4 gallery-item">
-        <a href="assets/img/gallery/1.jpg" title="" class="img-zoom">
-          <div class="gallery-box">
-            <div class="gallery-img"> <img src="assets/img/gallery/1.jpg" class="img-fluid mx-auto d-block" alt=""> </div>
-          </div>
-        </a>
-      </div>
-      <div class="col-md-4 gallery-item">
-        <a href="assets/img/gallery/2.jpg" title="" class="img-zoom">
-          <div class="gallery-box">
-            <div class="gallery-img"> <img src="assets/img/gallery/2.jpg" class="img-fluid mx-auto d-block" alt=""> </div>
-          </div>
-        </a>
-      </div>
-      <div class="col-md-4 gallery-item">
-        <a href="assets/img/gallery/5.jpg" title="" class="img-zoom">
-          <div class="gallery-box">
-            <div class="gallery-img"> <img src="assets/img/gallery/5.jpg" class="img-fluid mx-auto d-block" alt=""> </div>
-          </div>
-        </a>
+      @for (item of portfolioImages(); track $index) {
+        <div class="col-md-4 gallery-item">
+          <!-- abrir imagen en una nueva pestaña -->
+          <a [href]="item.url" target="_blank" title="" class="img-zoom">
+            <div class="gallery-box">
+              <div class="gallery-img">
+                 <img [src]="item.url" class="img-fluid mx-auto d-block" [alt]="item.name"/>
+                </div>
+            </div>
+          </a>
+        </div>
+      }
+      <div class="text-center">
+        <a class="btn-curve btn-1 mt-30" (click)="openPageGallery()"><span>VER TODO</span></a>
       </div>
     </div>
   </div>
