@@ -6,6 +6,9 @@ import { ContactAdmin } from '../../components/admin/contact-admin/contact-admin
 import { Firebase } from '../../services/firebase';
 import { HeaderAdmin } from "../../components/admin/header-admin/header-admin";
 
+const INACTIVITY_WARNING_MS = 3 * 60 * 1000; // 3 minutos
+const INACTIVITY_LOGOUT_MS = 5 * 60 * 1000; // 5 minutos
+
 @Component({
   selector: 'app-admin',
   imports: [HomeAdmin, PortfolioAdmin, ContactAdmin, HeaderAdmin],
@@ -21,18 +24,27 @@ export class Admin implements OnDestroy, OnInit {
   initTab = signal(1);
   private dataSubscription?: any;
 
+  showInactivityModal = signal(false);
+  private inactivityWarningTimeout?: any;
+  private inactivityLogoutTimeout?: any;
+
   constructor(private readonly router: Router, private readonly firebase: Firebase) {
 
   }
 
   ngOnInit(): void {
     this.loadBrand();
+    this.initInactivityHandler();
   }
 
-
-
   logout() {
-    this.router.navigate(['/web']);
+    // Cierra cualquier modal abierto y limpia el DOM de clases/backdrops y estilos inline
+    document.body.classList.remove('modal-open');
+    document.body.style.overflow = '';
+    document.body.style.paddingRight = '';
+    const backdrops = document.querySelectorAll('.modal-backdrop');
+    backdrops.forEach((el) => el.remove());
+    this.router.navigate(['/']);
   }
 
   changeTab(tab: number) {
@@ -51,9 +63,50 @@ export class Admin implements OnDestroy, OnInit {
     });
   }
 
+  // --- INACTIVIDAD ---
+  private initInactivityHandler() {
+    this.resetInactivityTimers();
+    const events = ['mousemove', 'mousedown', 'keydown', 'touchstart', 'scroll'];
+    events.forEach(event => {
+      window.addEventListener(event, this.handleUserActivity, true);
+    });
+  }
+
+  private readonly handleUserActivity = () => {
+    if (this.showInactivityModal()) {
+      this.showInactivityModal.set(false);
+    }
+    this.resetInactivityTimers();
+  };
+
+  private resetInactivityTimers() {
+    if (this.inactivityWarningTimeout) {
+      clearTimeout(this.inactivityWarningTimeout);
+    }
+    if (this.inactivityLogoutTimeout) {
+      clearTimeout(this.inactivityLogoutTimeout);
+    }
+    this.inactivityWarningTimeout = setTimeout(() => {
+      this.showInactivityModal.set(true);
+    }, INACTIVITY_WARNING_MS);
+    this.inactivityLogoutTimeout = setTimeout(() => {
+      this.logout();
+    }, INACTIVITY_LOGOUT_MS);
+  }
+
   ngOnDestroy() {
     if (this.dataSubscription) {
       this.dataSubscription.unsubscribe();
+    }
+    const events = ['mousemove', 'mousedown', 'keydown', 'touchstart', 'scroll'];
+    events.forEach(event => {
+      window.removeEventListener(event, this.handleUserActivity, true);
+    });
+    if (this.inactivityWarningTimeout) {
+      clearTimeout(this.inactivityWarningTimeout);
+    }
+    if (this.inactivityLogoutTimeout) {
+      clearTimeout(this.inactivityLogoutTimeout);
     }
   }
 

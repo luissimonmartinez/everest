@@ -16,6 +16,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
   urlInstagram = signal('');
   brandName = signal('');
   brandSubName = signal('');
+  showModal = signal(true);
 
   constructor(private readonly loginService: Login, private readonly router: Router, private readonly firebase: Firebase) { }
 
@@ -40,6 +41,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
           backdrop.remove();
         }
       }
+      this.showModal.set(false);
       this.router.navigate(['/admin']);
     }
   }

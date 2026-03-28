@@ -3,68 +3,74 @@
 
 <div class="container">
     <div class="row">
-        @if (loadingDataBrand()) {
-            <div class="d-flex justify-content-center align-items-center" style="height: 200px;">
-                <div class="spinner-border text-primary" role="status"></div>
-            </div>
-        }@else {
-            <ng-container [formGroup]="formGroup">
-                <div class="col-sm-12 col-md-4">
-                    <label for="name" class="form-label">Nombre de Marca</label>
-                    <input type="text" id="name" formControlName="name" class="form-control">
-                    <!-- máximo 12 caracteres -->
-                    @if(formGroup.get('name')?.hasError('maxlength')) {
-                    <div class="text-danger">
-                        El nombre de la marca no puede tener más de 12 caracteres.
-                    </div>
-                    }
-                </div>
-                <div class="col-sm-12 col-md-4">
-                    <label for="subName" class="form-label">Giro de Negocio</label>
-                    <input type="text" id="subName" formControlName="subName" class="form-control">
-                    <!-- máximo 22 caracteres -->
-                    @if(formGroup.get('subName')?.hasError('maxlength')) {
-                    <div class="text-danger">
-                        El giro de negocio no puede tener más de 22 caracteres.
-                    </div>
-                    }
-                </div>
-                <div class="col-sm-12 col-md-2">
-                    <label for="since" class="form-label">Año de Fundación</label>
-                    <input type="text" id="since" formControlName="since" class="form-control">
-                    <!-- máximo 4 caracteres -->
-                    @if(formGroup.get('since')?.hasError('maxlength')) {
-                    <div class="text-danger">
-                        El año de fundación no puede tener más de 4 caracteres.
-                    </div>
-                    }
-                </div>
-                <div class="col-sm-12 col-md-2 d-flex align-items-end justify-content-center mt-4 mb-4">
-                    <button class="btn btn-primary" [disabled]="isLoadingChangeBrand()"
-                        (click)="changeDataHome()">{{isLoadingChangeBrand() ? 'Guardando...' : 'Guardar'}}</button>
-                </div>
-            </ng-container>
-        }
-        <hr class="mb-5 mt-4">
         @if(loadingDataPerfil()) {
             <div class="d-flex justify-content-center align-items-center" style="height: 200px;">
                 <div class="spinner-border text-primary" role="status"></div>
             </div>
-        }@else {    
+        }@else {
             <ng-container>
-                <div class="col-sm-12 col-md-6 mt-4">
-                    <p>Foto de perfil: {{name()}}</p>
-                    <p>Actualizado el: {{date()}}</p>
-                    <p>Cambiar Imagen de Perfil</p>
-                    <input type="file" accept="image/*" (change)="onFileSelected($event)" />
-                    <button class="btn btn-primary" [disabled]="loadingUploadPerfil || !filePerfil"
+                <div class="col-sm-12 col-md-6">
+                    <div class="d-flex justify-content-between w-75 text-start mx-auto">
+                        <span>Actualizado el: {{date()}}</span>
+                    </div>
+                    <div class="w-75 text-center mx-auto mt-3 mb-3">
+                        <img [src]="url()" [alt]="name()" class="img-fluid" />
+                    </div>
+                    <p class="w-75 mx-auto">Cambiar foto principal</p>
+                    <div class="w-75 text-center mx-auto mt-3 mb-3">
+                        <input class="mt-4" type="file" accept="image/*" (change)="onFileSelected($event)" />
+                        <button class="btn btn-primary" [disabled]="loadingUploadPerfil || !filePerfil"
                         (click)="uploadImage()">{{loadingUploadPerfil ? 'Subiendo...' :'Subir Imagen'}}</button>
-                </div>
-                <div class="col-sm-12 col-md-6 mt-4 text-center">
-                    <img [src]="url()" [alt]="name()" class="img-fluid w-50" />
+                    </div>
                 </div>
             </ng-container>
         }
-        <hr class="mb-5 mt-4">
+        @if (loadingDataBrand()) {
+        <div class="d-flex justify-content-center align-items-center" style="height: 200px;">
+            <div class="spinner-border text-primary" role="status"></div>
+        </div>
+        }@else {
+        <ng-container [formGroup]="formGroup">
+            <div class="col-sm-12 col-md-6">
+                <div class="row">
+                    <div class="col-sm-12 col-md-12">
+                        <label for="name" class="form-label">Nombre de Marca</label>
+                        <input type="text" id="name" formControlName="name" class="form-control">
+                        <!-- máximo 12 caracteres -->
+                        @if(formGroup.get('name')?.hasError('maxlength')) {
+                        <div class="text-danger">
+                            El nombre de la marca no puede tener más de 12 caracteres.
+                        </div>
+                        }
+                    </div>
+                    <div class="col-sm-12 col-md-12">
+                        <label for="subName" class="form-label">Giro de Negocio</label>
+                        <input type="text" id="subName" formControlName="subName" class="form-control">
+                        <!-- máximo 22 caracteres -->
+                        @if(formGroup.get('subName')?.hasError('maxlength')) {
+                        <div class="text-danger">
+                            El giro de negocio no puede tener más de 22 caracteres.
+                        </div>
+                        }
+                    </div>
+                    <div class="col-sm-12 col-md-12">
+                        <label for="since" class="form-label">Año de Fundación</label>
+                        <input type="text" id="since" formControlName="since" class="form-control">
+                        <!-- máximo 4 caracteres -->
+                        @if(formGroup.get('since')?.hasError('maxlength')) {
+                        <div class="text-danger">
+                            El año de fundación no puede tener más de 4 caracteres.
+                        </div>
+                        }
+                    </div>
+                    <div class="col-sm-12 col-md-12 d-flex align-items-end justify-content-center mt-4 mb-4">
+                        <button class="btn btn-primary" [disabled]="isLoadingChangeBrand()"
+                            (click)="changeDataHome()">{{isLoadingChangeBrand() ? 'Guardando...' : 'Guardar'}}</button>
+                    </div>
+                </div>
+            </div>
+        </ng-container>
+        }
+        <!-- <hr class="mb-5 mt-4"> -->
     </div>
 </div>

@@ -1,6 +1,6 @@
 @if (loadingData()) {
     <div class="d-flex justify-content-center align-items-center" style="height: 200px;">
-        <div class="spinner-border text-primary" role="status"></div>
+        <div class="spinner-border text-dark" role="status"></div>
     </div>
 }@else {
     <div class="container">
@@ -15,8 +15,8 @@
                 <!-- abrir imagen en una nueva pestaña -->
                 <a [href]="item.url" target="_blank" title="" class="img-zoom" title="Click para ampliar">
                     <div class="gallery-box">
-                        <div class="gallery-img">
-                            <img [src]="item.url" class="img-fluid mx-auto d-block" [alt]="item.name" />
+                        <div class="gallery-img portfolio-img-standard">
+                            <img [src]="item.url" [alt]="item.name" class="portfolio-img-fit" />
                         </div>
                     </div>
                 </a>
@@ -26,9 +26,14 @@
                 </div>
             </div>
             }
-            @if (pageCurrent<totalCargas) {
+            @if (loadingMoreData()) {
+                <div class="d-flex justify-content-center align-items-center" style="height: 100px; width: 100%;">
+                    <div class="spinner-border text-dark" role="status"></div>
+                </div>
+            }
+            @if (pageCurrent()<totalCargas() && !loadingMoreData()) {
                 <div class="text-center mt-4">
-                    <a class="btn-curve btn-1 mt-30" (click)="loadMoreImages()"><span>CARGAR MAS</span></a>
+                    <button class="btn btn-dark" (click)="loadMoreImages()">Cargar más fotos</button>
                 </div>
                 
             }

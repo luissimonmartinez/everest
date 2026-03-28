@@ -1,17 +1,19 @@
 <div class="container">
-    <div class="row">
-        <div class="col-sm-12 col-md-6">
-            <p>Cargar imágenes de portafolio</p>
+    <div class="row mt-4 mb-4">
+        <div class="col-sm-12 col-md-12">
+            <p>
+                <strong>Cargar imágenes de portafolio</strong> <br>
+                Se recomienda imágenes con dimensiones cercanas a 634px × 799px
+            </p>
             <input type="file" accept="image/*" (change)="onFileSelected($event)" multiple />
         </div>
-        <div class="col-sm-12 col-md-6 d-flex flex-column align-items-start justify-content-center">
-            <p>-</p>
+        <div class="col-sm-12 col-md-12 text-center mt-3">
             <button class="btn btn-primary" (click)="uploadImages()" [disabled]="loading() || files.length==0">
-                {{loading() ?'Guardando imágenes...' : 'Guardar imágenes'}}
+                {{loading() ?'Guardando imágenes...' : 'Guardar'}}
             </button>
         </div>
     </div>
-    <div class="row">
+    <div class="row mt-4 mb-4">
         <p>Listado de imágenes del portafolio:</p>
         @if (loadingData()) {
         <div class="d-flex justify-content-center align-items-center" style="height: 200px;">

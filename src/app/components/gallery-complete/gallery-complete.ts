@@ -20,6 +20,8 @@ export class GalleryComplete implements OnDestroy, OnInit {
   pageCurrent = signal(1);
   UseDateUtil = DateUtils;
 
+  loadingMoreData = signal(false);
+
   constructor(private readonly router: Router, private readonly firebase: Firebase,) { }
 
   ngOnInit(): void {
@@ -58,6 +60,15 @@ export class GalleryComplete implements OnDestroy, OnInit {
   }
 
   loadMoreImages() {
+    // simular carga de datos
+    this.loadingMoreData.set(true);
+    setTimeout(() => {
+      this.loadingMoreData.set(false);
+      this.addMoreImages();
+    }, 1000);
+  }
+
+  addMoreImages() {
     const initslice = this.pageCurrent() * 6;
     const endSlice = initslice + 6;
     const currentImages = this.portfolioImages();

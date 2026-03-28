@@ -1,4 +1,22 @@
-<!-- ubica en un mejor lugar el boton de cerrar sesion -->
+<!-- Modal de inactividad -->
+@if (showInactivityModal()) {
+<div class="modal fade show d-block" tabindex="-1" style="background:rgba(0,0,0,0.4);">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Inactividad detectada</h5>
+            </div>
+            <div class="modal-body">
+                <p>Llevas 3 minutos sin interactuar. Serás redirigido en 2 minutos si no realizas ninguna acción.</p>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-primary" (click)="showInactivityModal.set(false)">Seguir trabajando</button>
+            </div>
+        </div>
+    </div>
+</div>
+}
+<!-- Botón cerrar sesión -->
 <div class="text-end mt-4 me-4">
     <button class="btn btn-dark" (click)="logout()">Cerrar sesión</button>
 </div>
