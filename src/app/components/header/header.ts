@@ -17,6 +17,8 @@ export class HeaderComponent implements OnInit, OnDestroy {
   brandName = signal('');
   brandSubName = signal('');
   showModal = signal(true);
+  loadingLogin = signal(false);
+  loginError = signal('');
 
   constructor(private readonly loginService: Login, private readonly router: Router, private readonly firebase: Firebase) { }
 
@@ -27,22 +29,30 @@ export class HeaderComponent implements OnInit, OnDestroy {
   }
 
   async login(user: string, pass: string) {
-    this.thisIsLogin = await this.loginService.loginFirebase(user, pass);
-    if (this.thisIsLogin) {
-      // Cierra el modal de login manualmente
-      const modal = document.getElementById('loginModal');
-      if (modal) {
-        (window as any).bootstrap.Modal.getOrCreateInstance(modal).hide();
-        // Elimina la clase modal-open del body
-        document.body.classList.remove('modal-open');
-        // Elimina el backdrop si existe
-        const backdrop = document.querySelector('.modal-backdrop');
-        if (backdrop) {
-          backdrop.remove();
+    this.loadingLogin.set(true);
+    this.loginError.set('');
+    try {
+      this.thisIsLogin = await this.loginService.loginFirebase(user, pass);
+      if (this.thisIsLogin) {
+        // Cierra el modal de login manualmente
+        const modal = document.getElementById('loginModal');
+        if (modal) {
+          (window as any).bootstrap.Modal.getOrCreateInstance(modal).hide();
+          // Elimina la clase modal-open del body
+          document.body.classList.remove('modal-open');
+          // Elimina el backdrop si existe
+          const backdrop = document.querySelector('.modal-backdrop');
+          if (backdrop) {
+            backdrop.remove();
+          }
         }
+        this.showModal.set(false);
+        this.router.navigate(['/admin']);
+      } else {
+        this.loginError.set('Correo o contraseña incorrectos. Intenta nuevamente.');
       }
-      this.showModal.set(false);
-      this.router.navigate(['/admin']);
+    } finally {
+      this.loadingLogin.set(false);
     }
   }
 
