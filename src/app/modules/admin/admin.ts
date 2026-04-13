@@ -5,6 +5,7 @@ import { PortfolioAdmin } from '../../components/admin/portfolio-admin/portfolio
 import { ContactAdmin } from '../../components/admin/contact-admin/contact-admin';
 import { Firebase } from '../../services/firebase';
 import { HeaderAdmin } from "../../components/admin/header-admin/header-admin";
+import { Login } from '../../services/login';
 
 const INACTIVITY_WARNING_MS = 3 * 60 * 1000; // 3 minutos
 const INACTIVITY_LOGOUT_MS = 5 * 60 * 1000; // 5 minutos
@@ -25,10 +26,15 @@ export class Admin implements OnDestroy, OnInit {
   private dataSubscription?: any;
 
   showInactivityModal = signal(false);
+  loadingLogout = signal(false);
   private inactivityWarningTimeout?: any;
   private inactivityLogoutTimeout?: any;
 
-  constructor(private readonly router: Router, private readonly firebase: Firebase) {
+  constructor(
+    private readonly router: Router,
+    private readonly firebase: Firebase,
+    private readonly loginService: Login
+  ) {
 
   }
 
@@ -37,14 +43,22 @@ export class Admin implements OnDestroy, OnInit {
     this.initInactivityHandler();
   }
 
-  logout() {
-    // Cierra cualquier modal abierto y limpia el DOM de clases/backdrops y estilos inline
-    document.body.classList.remove('modal-open');
-    document.body.style.overflow = '';
-    document.body.style.paddingRight = '';
-    const backdrops = document.querySelectorAll('.modal-backdrop');
-    backdrops.forEach((el) => el.remove());
-    this.router.navigate(['/']);
+  async logout() {
+    this.loadingLogout.set(true);
+    try {
+      const logoutSuccess = await this.loginService.logoutFirebase();
+      if (logoutSuccess) {
+        // Cierra cualquier modal abierto y limpia el DOM de clases/backdrops y estilos inline
+        document.body.classList.remove('modal-open');
+        document.body.style.overflow = '';
+        document.body.style.paddingRight = '';
+        const backdrops = document.querySelectorAll('.modal-backdrop');
+        backdrops.forEach((el) => el.remove());
+        this.router.navigate(['/web']);
+      }
+    } finally {
+      this.loadingLogout.set(false);
+    }
   }
 
   changeTab(tab: number) {
@@ -68,7 +82,7 @@ export class Admin implements OnDestroy, OnInit {
     this.resetInactivityTimers();
     const events = ['mousemove', 'mousedown', 'keydown', 'touchstart', 'scroll'];
     events.forEach(event => {
-      window.addEventListener(event, this.handleUserActivity, true);
+      globalThis.addEventListener(event, this.handleUserActivity, true);
     });
   }
 
@@ -100,7 +114,7 @@ export class Admin implements OnDestroy, OnInit {
     }
     const events = ['mousemove', 'mousedown', 'keydown', 'touchstart', 'scroll'];
     events.forEach(event => {
-      window.removeEventListener(event, this.handleUserActivity, true);
+      globalThis.removeEventListener(event, this.handleUserActivity, true);
     });
     if (this.inactivityWarningTimeout) {
       clearTimeout(this.inactivityWarningTimeout);

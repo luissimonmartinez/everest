@@ -27,7 +27,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
   }
 
   async login(user: string, pass: string) {
-    this.thisIsLogin = await this.loginService.login(user, pass);
+    this.thisIsLogin = await this.loginService.loginFirebase(user, pass);
     if (this.thisIsLogin) {
       // Cierra el modal de login manualmente
       const modal = document.getElementById('loginModal');

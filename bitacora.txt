@@ -1,5 +1,6 @@
 user:
 ever_admin
+everest.admin@gmail.com
 password:
 @dmin(Everest2026)
 
